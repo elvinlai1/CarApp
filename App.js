@@ -4,9 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Card from "./components/Card";
 import CarLock from "./components/CarLock";
-
 
 function HomeScreen() {
 
@@ -22,8 +20,7 @@ function HomeScreen() {
         <View style={[styles.card, styles.shadowProp]}>
           <CarLock/>
         </View>
-          
-
+        
 
       </View>
     </>
@@ -108,14 +105,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     paddingVertical: 20,
-    paddingHorizontal: 25,
+    paddingHorizontal: 20,
     width: '90%',
     marginVertical: 10,
   },
   shadowProp: {
     shadowColor: '#171717',
     shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 3,
   },
 });
