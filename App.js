@@ -1,27 +1,33 @@
 import React from "react";
 import {StyleSheet, Text, View, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarLock from "./components/CarLock";
 
-function HomeScreen() {
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function HomeScreen({}) {
 
   return (
     <>
       <View style={styles.container}>
         
-        
         <View style={[styles.card, styles.shadowProp]}>
-          <Button title="Climate Control"/>
+       
+          <Button 
+            title="Climate Control"
+            onPress={() => navigation.navigate('Climate')}
+          />
         </View>
         
         <View style={[styles.card, styles.shadowProp]}>
           <CarLock/>
         </View>
         
-
       </View>
     </>
   );
@@ -43,7 +49,16 @@ function BatteryScreen() {
   );
 }
 
-const Tab = createBottomTabNavigator();
+function ClimateControlScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Climate Control</Text>
+    </View>
+  );
+}
+
+
+
 
 function MyTabs() {
   return (
@@ -88,8 +103,12 @@ export default function App() {
   
   return (
     <NavigationContainer>
+      <Stack.Navigator initalRouteName="Home">
+        <Stack.Screen name="Climate" component={ClimateControlScreen}/>
+      </Stack.Navigator>
       <MyTabs />
     </NavigationContainer>
+    
   );
 }
 
