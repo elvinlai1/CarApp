@@ -1,75 +1,25 @@
 import React from "react";
 import {StyleSheet, Text, View, Button } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarLock from "./components/CarLock";
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-function HomeScreen({}) {
-
+function HomeScreen() {
   return (
-    <>
-      <View style={styles.container}>
-        
-        <View style={[styles.card, styles.shadowProp]}>
-       
-          <Button 
-            title="Climate Control"
-            onPress={() => navigation.navigate('Climate')}
-          />
-        </View>
-        
-        <View style={[styles.card, styles.shadowProp]}>
-          <CarLock/>
-        </View>
-        
-      </View>
-    </>
-  );
-}
-
-function MapScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>Map</Text>
-    </View>
-  );
-}
-
-function BatteryScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>Battery!</Text>
-    </View>
-  );
-}
-
-function ClimateControlScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Climate Control</Text>
-    </View>
-  );
-}
-
-
-
-
-function MyTabs() {
-  return (
-    <Tab.Navigator
+     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel:false
         }}
       >
       <Tab.Screen 
-        name="Home"
-        component={HomeScreen}
+        name="Car"
+        component={CarScreen}
         options={{
           tabBarIcon: ({}) =>(
            <Icon name="car" size={30}/>
@@ -77,7 +27,7 @@ function MyTabs() {
         }}
       />
       <Tab.Screen 
-        name="Battery" 
+        name="Battery"
         component={BatteryScreen}
         options={{
           tabBarIcon: ({})=>(
@@ -98,18 +48,85 @@ function MyTabs() {
   );
 }
 
+function MapScreen() {
+  return (
+    <View style={styles.container}>
+      <Text>Map</Text>
+    </View>
+  );
+}
+
+function BatteryScreen() {
+  return (
+    <View style={styles.container}>
+      <Text>Battery!</Text>
+     
+    </View>
+  );
+}
+
+function SettingsScreen(){
+  return (
+    <View style={styles.container}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+function ProfileScreen(){
+  return (
+    <View style={styles.container}>
+      <Text>Profile</Text>
+    </View>
+  );
+}
+
+function ClimateControlScreen(){
+  return (
+    <View style={styles.container}>
+      <Text>Climate Control</Text>
+    </View>
+  );
+}
+
+function CarScreen({navigation}){
+  return(
+      <View style={styles.container}>
+        
+        <View style={[styles.card, styles.shadowProp]}>
+            <Button
+              title="Climate Control"
+              onPress={() => navigation.navigate('Climate Control')}
+            />
+        </View>
+        
+        <View style={[styles.card, styles.shadowProp]}>
+          <CarLock/>
+        </View>
+  
+      </View> 
+  )
+}
+
+
+
 
 export default function App() {
   
   return (
     <NavigationContainer>
-      <Stack.Navigator initalRouteName="Home">
-        <Stack.Screen name="Climate" component={ClimateControlScreen}/>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Climate Control" component={ClimateControlScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
-      <MyTabs />
     </NavigationContainer>
-    
-  );
+    );
 }
 
 const styles = StyleSheet.create({
