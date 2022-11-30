@@ -4,47 +4,67 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarLock from "./components/CarLock";
+import Slider from "@react-native-community/slider";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+function MyTabs(){
+  
+return(
+    <Tab.Navigator
+    screenOptions={{
+      tabBarShowLabel:false
+      }}
+    >
+    <Tab.Screen 
+      name="Home"
+      component={HomeScreen}
+      options={{
+        tabBarIcon: ({}) =>(
+        <Icon name="car" size={30}/>
+        ),
+      }}
+    />  
+    <Tab.Screen 
+      name="Battery"
+      component={BatteryScreen}
+      options={{
+        tabBarIcon: ({})=>(
+        <Icon name="car-battery" size={30}/>
+        ),
+      }}
+    />
+    <Tab.Screen 
+      name="Map" 
+      component={MapScreen} 
+      options={{
+        tabBarIcon: ({})=>(
+          <Icon name="map-marker" size={30}/>
+        ),
+      }}
+    />
+    </Tab.Navigator>
+ )
+}
+
+
+
 function HomeScreen() {
   return (
-     <Tab.Navigator
-      screenOptions={{
-        tabBarShowLabel:false
-        }}
-      >
-      <Tab.Screen 
+    <Stack.Navigator>
+      <Stack.Screen
         name="Car"
         component={CarScreen}
-        options={{
-          tabBarIcon: ({}) =>(
-           <Icon name="car" size={30}/>
-          ),
-        }}
+        options={{ headerShown: false }}
       />
-      <Tab.Screen 
-        name="Battery"
-        component={BatteryScreen}
-        options={{
-          tabBarIcon: ({})=>(
-          <Icon name="car-battery" size={30}/>
-          ),
-        }}
-      />
-      <Tab.Screen 
-        name="Map" 
-        component={MapScreen} 
-        options={{
-          tabBarIcon: ({})=>(
-            <Icon name="map-marker" size={30}/>
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Climate Control" options={{ headerShown: false }} component={ClimateControlScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
   );
 }
 
@@ -59,8 +79,21 @@ function MapScreen() {
 function BatteryScreen() {
   return (
     <View style={styles.container}>
-      <Text>Battery!</Text>
-     
+      <View style={styles.card}>
+        <Text>Battery!</Text>
+      </View>
+
+      <View style={styles.card}>
+          <Text>Charging</Text>
+          <Slider
+              style={{width: 200, height: 50}}
+              minimumValue={0}
+              maximumValue={1}
+              minimumTrackTintColor="red"
+              maximumTrackTintColor="grey"
+            />
+            <Text>100%</Text>
+        </View>
     </View>
   );
 }
@@ -82,10 +115,34 @@ function ProfileScreen(){
 }
 
 function ClimateControlScreen(){
+
+  
   return (
-    <View style={styles.container}>
-      <Text>Climate Control</Text>
-    </View>
+    <>
+     <View style={styles.container}>
+        <View style={styles.card}>
+          <Text>Quick Info</Text>
+        </View>
+      
+        <View style={styles.card}>
+          <Text>Temperature</Text>
+          <Slider
+              style={{width: 200, height: 50}}
+              minimumValue={10}
+              maximumValue={30}
+              step={1}
+              minimumTrackTintColor="red"
+              maximumTrackTintColor="grey"
+            />
+            <Text>11c</Text>
+        </View>
+        <View style={styles.card}>
+          <Text>Heated Seats</Text> 
+          <Text>Defogger</Text>
+        </View>
+        
+      </View>
+    </>
   );
 }
 
@@ -115,16 +172,7 @@ export default function App() {
   
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Climate Control" component={ClimateControlScreen} />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-      </Stack.Navigator>
+      <MyTabs/>
     </NavigationContainer>
     );
 }
@@ -139,16 +187,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: 'white',
-    borderRadius: 8,
+    borderRadius: 3,
     paddingVertical: 20,
     paddingHorizontal: 20,
-    width: '90%',
+    width: '95%',
     marginVertical: 10,
   },
   shadowProp: {
     shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
+    //shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.3,
-    shadowRadius: 3,
+    shadowRadius: 2,
   },
 });
