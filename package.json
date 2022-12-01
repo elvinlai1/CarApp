@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "16": "0.0.2",
-    "@expo/webpack-config": "^0.17.2",
+    "@expo/webpack-config": "^0.16.19",
     "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-community/slider": "^4.2.4",
     "@react-navigation/bottom-tabs": "^6.4.0",
@@ -24,7 +24,8 @@
     "react-icons": "^4.6.0",
     "react-native": "0.70.5",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.18.7"
+    "react-native-web": "~0.18.7",
+    "undefined": "@expo/webpack-config^0.17.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

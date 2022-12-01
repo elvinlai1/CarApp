@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -77,6 +77,7 @@ function MapScreen() {
 }
 
 function BatteryScreen() {
+  const[ChargeRate, setChargeRate] = useState(0);
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -87,12 +88,14 @@ function BatteryScreen() {
           <Text>Charging</Text>
           <Slider
               style={{width: 200, height: 50}}
-              minimumValue={0}
-              maximumValue={1}
-              minimumTrackTintColor="red"
+              minimumValue={14}
+              maximumValue={60}
+              onValueChange={setChargeRate}
+              step={1}
+              minimumTrackTintColor="green"
               maximumTrackTintColor="grey"
             />
-            <Text>100%</Text>
+            <Text>{ ChargeRate<15 ? "NOT CHARGING" : ChargeRate + " A"} </Text>
         </View>
     </View>
   );
@@ -116,6 +119,7 @@ function ProfileScreen(){
 
 function ClimateControlScreen(){
 
+  const [Temp, setTemp] = useState(10)
   
   return (
     <>
@@ -130,15 +134,18 @@ function ClimateControlScreen(){
               style={{width: 200, height: 50}}
               minimumValue={10}
               maximumValue={30}
+              onValueChange={setTemp}
               step={1}
               minimumTrackTintColor="red"
-              maximumTrackTintColor="grey"
+              maximumTrackTintColor="blue"
             />
-            <Text>11c</Text>
+            <Text>{Temp} C</Text>
         </View>
         <View style={styles.card}>
-          <Text>Heated Seats</Text> 
+          
           <Text>Defogger</Text>
+          <Button style={styles.button} title="Front"/>
+          <Button style={styles.button} title="Rear"/>
         </View>
         
       </View>
@@ -149,6 +156,10 @@ function ClimateControlScreen(){
 function CarScreen({navigation}){
   return(
       <View style={styles.container}>
+        <View style={[styles.card, styles.shadowProp, {flexDirection: "row", justifyContent: "center", }]}>
+          <Button style={[styles.button]} title="Front"/>
+          <Button style={styles.button} title="Rear"/>
+        </View>
         
         <View style={[styles.card, styles.shadowProp]}>
             <Button
@@ -192,6 +203,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     width: '95%',
     marginVertical: 10,
+  },
+  button:{
+   margin:5,
+
   },
   shadowProp: {
     shadowColor: '#171717',
