@@ -21,7 +21,7 @@ return(
       }}
     >
     <Tab.Screen 
-      name="Home"
+      name="Vehicle"
       component={HomeScreen}
       options={{
         tabBarIcon: ({}) =>(
@@ -78,24 +78,40 @@ function MapScreen() {
 
 function BatteryScreen() {
   const[ChargeRate, setChargeRate] = useState(0);
+  const[BatteryLevel, setBatteryLevel] = useState(20);
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text>Battery!</Text>
+        <Text>200 KM</Text>
+        <Text>Remaining</Text>
       </View>
 
       <View style={styles.card}>
-          <Text>Charging</Text>
+          <Text>Charging Rate</Text>
           <Slider
               style={{width: 200, height: 50}}
               minimumValue={14}
               maximumValue={60}
               onValueChange={setChargeRate}
               step={1}
+              minimumTrackTintColor="yellow"
+              maximumTrackTintColor="grey"
+            />
+            
+            <Button title={ ChargeRate<15 ? "NOT CHARGING" : ChargeRate + " A"} onPress={() => {setChargeRate((current)=>current=14);}}></Button>
+        </View>
+        <View style={styles.card}>
+          <Text>Set Maximum Battery Level</Text>
+          <Slider
+              style={{width: 200, height: 50}}
+              minimumValue={20}
+              maximumValue={100}
+              onValueChange={setBatteryLevel}
+              step={1}
               minimumTrackTintColor="green"
               maximumTrackTintColor="grey"
             />
-            <Text>{ ChargeRate<15 ? "NOT CHARGING" : ChargeRate + " A"} </Text>
+            <Text>{ BatteryLevel + " %"} </Text>
         </View>
     </View>
   );
@@ -119,35 +135,113 @@ function ProfileScreen(){
 
 function ClimateControlScreen(){
 
-  const [Temp, setTemp] = useState(10)
+  const [userTemp, setUserTemp] = useState(9)
+  const [pressed, setPressed] = useState(0);
   
   return (
     <>
      <View style={styles.container}>
+
         <View style={styles.card}>
           <Text>Quick Info</Text>
+          <Text>Internal Temperature</Text>
         </View>
-      
+
+        {/* Defogger */}
+        <View style={[styles.card]}>
+          <View style={{paddingBottom: 20}}>
+            <Text> Defogger</Text>
+          </View>
+          <View style={{flexDirection:"row"}}>
+              <Pressable 
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed 
+                    ? 'grey'
+                    : 'black'
+                  },
+                  styles.button,
+                  ]}
+                  onPress={() => {setPressed((current) => current+1); 
+                }}>
+                <Text style={styles.btntext}>Front</Text>
+              </Pressable>
+
+              <Pressable
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed 
+                    ? 'grey'
+                    : 'black'
+                  },
+                  styles.button,
+                  ]}
+                  onPress={() => {setPressed((current) => current+1); 
+                }}>
+                <Text style={styles.btntext}>Rear</Text>
+              </Pressable>
+          </View>
+
+        </View>
+
+        {/* Heated Seats */}
+        <View style={[styles.card]}>
+          <View style={{paddingBottom: 20}}>
+            <Text>Heated Seats</Text>
+          </View>
+          <View style={{flexDirection: "row"}}>
+
+              <Pressable 
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed 
+                    ? 'grey'
+                    : 'black'
+                  },
+                  styles.button,
+                ]}
+                onPress={() => {setPressed((current) => current+1); 
+                }}>
+                <Text style={styles.btntext}>Left Front</Text>
+              </Pressable>
+
+              <Pressable
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed 
+                    ? 'grey'
+                    : 'black'
+                  },
+                  styles.button,
+                ]}
+                onPress={() => {setPressed((current) => current+1); 
+                }}>
+                <Text style={styles.btntext}>Right Front</Text>
+              </Pressable>
+
+          </View>
+
+        </View>
+
+        {/* Temperature Slider */}
         <View style={styles.card}>
-          <Text>Temperature</Text>
+          <Text>Set Temperature</Text>
           <Slider
               style={{width: 200, height: 50}}
-              minimumValue={10}
+              minimumValue={9}
               maximumValue={30}
-              onValueChange={setTemp}
+              onValueChange={setUserTemp}
+              value={userTemp}
               step={1}
               minimumTrackTintColor="red"
               maximumTrackTintColor="blue"
             />
-            <Text>{Temp} C</Text>
+            <Button title={ userTemp<10 ? "OFF" : userTemp + " C"} onPress={()=> {setUserTemp((current) => current=9);}}></Button>
         </View>
-        <View style={styles.card}>
-          
-          <Text>Defogger</Text>
-          <Button style={styles.button} title="Front"/>
-          <Button style={styles.button} title="Rear"/>
-        </View>
-        
+
+
+
+
       </View>
     </>
   );
@@ -156,39 +250,50 @@ function ClimateControlScreen(){
 function CarScreen({navigation}){
   const [pressed, setPressed] = useState(0);
   return(
-      <View style={styles.container}>
-        <View style={[styles.card]}>
-          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-            
-              <Pressable 
-                style={({pressed}) => [
-                  {
-                    backgroundColor: pressed 
-                    ? 'grey'
-                    : 'black'
-                  },
-                  styles.button,
-                  ]}
-                  onPress={() => {setPressed((current) => current+1); 
-                }}>
-                <Text style={styles.btntext}>Title</Text>
-              </Pressable>
 
-              <Pressable 
-                style={({pressed}) => [
-                  {
-                    backgroundColor: pressed 
-                    ? 'grey'
-                    : 'black'
-                  },
-                  styles.button,
-                  ]}
-                  onPress={() => {setPressed((current) => current+1); 
-                }}>
-                <Text style={styles.btntext}>Title</Text>
-              </Pressable>
-          </View>
+      <View style={styles.container}>
+
+
+        {/* Buttons */}
+
+        <View style={[styles.card]}>
+
+                  
+              <Text style={{marginBottom:20}}>Text</Text>
+
+          
+              <View style={{flexDirection:"row"}}>
+                      <Pressable 
+                        style={({pressed}) => [
+                          {
+                            backgroundColor: pressed 
+                            ? 'grey'
+                            : 'black'
+                          },
+                          styles.button,
+                        ]}
+                        onPress={() => {setPressed((current) => current+1); 
+                        }}>
+                        <Text style={styles.btntext}>Title</Text>
+                      </Pressable>
+                      <Pressable 
+                        style={({pressed}) => [
+                          {
+                            backgroundColor: pressed 
+                            ? 'grey'
+                            : 'black'
+                          },
+                          styles.button,
+                        ]}
+                        onPress={() => {setPressed((current) => current+1); 
+                        }}>
+                        <Text style={styles.btntext}>Title</Text>
+                      </Pressable>
+              </View>
+          
         </View>
+
+        {/* Climate Control */}
         
         <View style={[styles.card, {flexDirection:"row"}]}>
             <Pressable
@@ -211,6 +316,7 @@ function CarScreen({navigation}){
         </View>
       
       </View> 
+      
   )
 }
 
@@ -229,16 +335,17 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
   },
   card: {
     alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'space-around',
     backgroundColor: 'white',
     borderRadius: 3,
     paddingVertical: 20,
     paddingHorizontal: 20,
-    width: '95%',
+    width: '90%',
     marginVertical: 10,
     shadowColor: '#171717',
     //shadowOffset: {width: -2, height: 4},
@@ -246,10 +353,10 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   button:{
-    flex: 1,
-    alignItems: 'center',
+    alignText: "center",
     paddingVertical: 12,
     paddingHorizontal: 20,
+    marginHorizontal: 20,
     borderRadius: 4,
     elevation: 3,
   },
