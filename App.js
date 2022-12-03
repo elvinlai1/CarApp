@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {StyleSheet, Text, View, Button } from 'react-native';
+import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -62,7 +62,7 @@ function HomeScreen() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Climate Control" options={{ headerShown: false }} component={ClimateControlScreen} />
+      <Stack.Screen name="Climate Control" options={{  }} component={ClimateControlScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
@@ -154,24 +154,62 @@ function ClimateControlScreen(){
 }
 
 function CarScreen({navigation}){
+  const [pressed, setPressed] = useState(0);
   return(
       <View style={styles.container}>
-        <View style={[styles.card, styles.shadowProp, {flexDirection: "row", justifyContent: "center", }]}>
-          <Button style={[styles.button]} title="Front"/>
-          <Button style={styles.button} title="Rear"/>
+        <View style={[styles.card]}>
+          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+            
+              <Pressable 
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed 
+                    ? 'grey'
+                    : 'black'
+                  },
+                  styles.button,
+                  ]}
+                  onPress={() => {setPressed((current) => current+1); 
+                }}>
+                <Text style={styles.btntext}>Title</Text>
+              </Pressable>
+
+              <Pressable 
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed 
+                    ? 'grey'
+                    : 'black'
+                  },
+                  styles.button,
+                  ]}
+                  onPress={() => {setPressed((current) => current+1); 
+                }}>
+                <Text style={styles.btntext}>Title</Text>
+              </Pressable>
+          </View>
         </View>
         
-        <View style={[styles.card, styles.shadowProp]}>
-            <Button
-              title="Climate Control"
-              onPress={() => navigation.navigate('Climate Control')}
-            />
+        <View style={[styles.card, {flexDirection:"row"}]}>
+            <Pressable
+              style={({pressed}) => [
+                {
+                  backgroundColor: pressed
+                  ? 'grey'
+                  : 'black'
+                },
+                styles.button,
+              ]}
+              onPress={() => navigation.navigate('Climate Control')
+            }>
+              <Text style={styles.btntext}>Climate Control</Text>
+            </Pressable>
         </View>
         
-        <View style={[styles.card, styles.shadowProp]}>
+        <View style={[styles.card]}>
           <CarLock/>
         </View>
-  
+      
       </View> 
   )
 }
@@ -196,22 +234,36 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: 'center',
-    alignSelf: 'center',
     backgroundColor: 'white',
     borderRadius: 3,
     paddingVertical: 20,
     paddingHorizontal: 20,
     width: '95%',
     marginVertical: 10,
-  },
-  button:{
-   margin:5,
-
-  },
-  shadowProp: {
     shadowColor: '#171717',
     //shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.3,
     shadowRadius: 2,
   },
+  button:{
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+    elevation: 3,
+  },
+  btntext: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+  // shadowProp: {
+  //   shadowColor: '#171717',
+  //   shadowOffset: {width: -2, height: 4},
+  //   shadowOpacity: 0.3,
+  //   shadowRadius: 2,
+  // },
 });
