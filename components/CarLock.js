@@ -10,14 +10,14 @@ const CarLock = () => {
 
     return (
         <View>
+            <Icon name={isEnabled ? "lock-outline" : "lock-open-variant-outline"} size={50}/>
             <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                style={{transform:[{scale:1.5}]}}
+                trackColor={{ false: "#CB4335", true: "#2ECC71" }}
+                thumbColor={isEnabled ? "#2ECC71" : "#CB4335"}
                 onValueChange={toggleSwitch}
                 value={isEnabled}
                 />
-            <Icon name={isEnabled ? "lock-outline" : "lock-open-variant-outline"} size={40}/>
         </View>
     );
 }
